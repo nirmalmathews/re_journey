@@ -1,0 +1,7 @@
+BCC stands for Branch if carry clear.
+lets take a cmp instruction 
+for eg)
+cmp r1, r2
+the carry flag is set if r1 >= r2. (an easy way to see this is to visualize subtraction as addition)
+For eg) 5 -4 is 5 + (-4) where -4 is 2's complement of 4 ie 0xFFFFFFFC
+So for BCC to happen, r1 < r2.
