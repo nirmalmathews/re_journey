@@ -1,0 +1,45 @@
+The things that I learnt here are below.
+
+At line 30, we have
+UMULL R2, R3, R4, R8 ; R8 is 0xa and R4 is the low 32 bit of the 64-bit accumulator
+
+At line 34 we have MLA R3, R8, R5 , R3
+
+What UMULL does is , multiply R4, R8 and store the low 32 bits of the result in R2 and the high 32 bits of the result in R3.
+
+According the mystery1, we have 2 64 bit values, r4, r5 which represent the accumulator. r4 represents the low 32 bit and r5 represents the high 32 bit. And r2 and r3 represents a temp 64 bit var. r2 represent the low 32 bit and r3 represents the high 32 bit. 
+
+Now we multiply the x[index] - 0x30 (if it is between 0-9 inclusive). So how we multiply is that, we multiply x[index] with r4 and r2 stores the low 32 bit and r3 stores the high 32 bit. We have to also multiply r[index] with r5 as well (this is the high 32 bit of the acc), and then add the high 32 bit (r3 of the previous computation to it as well). To explain with a concrete example,
+
+lets say acc  = 0x1 FFFFFFFF
+r4 = 0xFFFFFFFF
+r5 = 0x1
+
+now we want to multiply acc with 0x10 → 0x1F FFFFFFF0
+
+how do we accomplish this?
+multiply r4 by 0x10 → store result in r2, r3
+r2 = 0xFFFFFFF0
+r3 = 0xF
+
+now multiply r5 by 0x10 → store result in 32 bit value (say r7) because max precision in 64 bits.
+so we use a MLA to do mult and add at the same time.
+
+r7 = 0x10 and now add r3 to it, therefore r7 = 0x1F and then move r7 to r5. Thus we get the final result.
+(NB r7 is used for different purpose in the exercise, here it is used for ease)
+
+Consider lines 44-48, I was really stumped as to why we need a SBCS R0, r3, #0 at line 47.
+
+I think the reason is (I might be wrong), if the string is -0.
+
+Then, 
+at line 44, r4 = 0, r5 = 0 and r6 = 1.
+
+lines 44, 45 result in setting r2, r3 to 0xFFFFFFFF.
+
+CMP r2, #0x80000000 will result in the CF being set and OF and NF to be zero.
+Now if there was no SBCS R0, r3, #0 at line 47, then the BGE would be taken since the condition for 
+BGE is that OF == NF.
+the SBCS R0, r3, #0 at line 47 would result in NF to be set and OF would still be zero, therefore the jump is not taken.
+That took a long time for me to figure out!!
+
