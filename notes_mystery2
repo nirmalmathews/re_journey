@@ -1,0 +1,1 @@
+This is simple. Note that SUBS R0, #0 is the same as CMP R0, #0. IT NE was explained well in the book, so I will skip that.
