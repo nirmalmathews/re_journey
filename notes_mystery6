@@ -1,0 +1,22 @@
+Some things I noted here are, this works only if the size <= 64. If it is greater and a match occurs with index >= 64, 1 << (index) will always be zero.
+Also, the other thing of interest to me is the (int64_t)1 << index.
+
+
+r1 is the high 32 bits of (1 << index) and r2 is the low 32 bits.
+
+Lets take 2 cases. 
+case 1) index is < 32 eg) index = 10
+subs.w r3, r2, #0x20
+movs r1, #1
+lsls r1, r3
+will result in r1 = 0, since if r2 < 0x20, then 1 << (r2 - 0x20) will always be 0.
+
+movs r3, #1
+lsls.w r0, r3, r2
+
+this will be 1 << r2 ie 1 << 10 in r0
+
+
+case 2) index is > 32 eg) index = 40
+r1 will be 1 << 8
+but r0 will be 0
