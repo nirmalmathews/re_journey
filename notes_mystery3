@@ -1,0 +1,1 @@
+Even though in assembly, there are two stores, the stores are to adjacent memory location. I suspect that they are 64-bit values. 
