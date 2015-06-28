@@ -1,0 +1,2 @@
+Note that this example doesn't differentiate an empty string ie s = "" and a NULL pointer s = NULL.
+other than that it is trivial, although the BFC at the end makes sure that the max len of the string is 0x3FFFFFFF
