@@ -1,1 +1,6 @@
-This is simple. Note that SUBS R0, #0 is the same as CMP R0, #0. IT NE was explained well in the book, so I will skip that.
+This is simple. Note that SUBS R0, #0 is the same as CMP R0, #0. IT NE was explained well in the book, so I will skip that. But an optimization that we can do
+is to rewrite the pseudocode as 
+if (s == NULL || s->field_0x63_b)
+	return 1;
+else 
+	return 0;
