@@ -1,1 +1,3 @@
-This could be wrong, since I finished it in one shot and didn't recheck. This function is not self-contained, so there isn't much explanation.
+This could be wrong, since I finished it in one shot and didn't recheck. This function is not self-contained, so there isn't much explanation. But it contains a lot of similar 
+code as in, read from an offset and use the read value as an index to get to the next structure. This is prevalent in file formats/network packets where for eg) the file header
+contains information about where the relevant sections of the file are located. Maybe it is doing one such thing, but without knowing what type of file it is, it is hard to reverse the function to something that is meaningful.
